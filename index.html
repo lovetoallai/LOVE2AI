@@ -392,6 +392,37 @@ h1 {
 .share-btn.reddit { background: #ff4500; color: #fff; }
 .share-btn.facebook { background: #1877f2; color: #fff; }
 .share-btn.line { background: #06c755; color: #fff; }
+.countries-block {
+  width: 100%;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.countries-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.35em;
+  color: rgba(168,216,240,0.3);
+  text-transform: uppercase;
+  margin-bottom: 0.6rem;
+}
+.countries-flags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  justify-content: center;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+.country-flag {
+  cursor: default;
+  transition: transform 0.2s ease;
+  animation: flag-in 0.4s ease;
+}
+.country-flag:hover { transform: scale(1.3); }
+@keyframes flag-in {
+  from { opacity: 0; transform: scale(0.5); }
+  to { opacity: 1; transform: scale(1); }
+}
 .footer-note {
   position: fixed;
   bottom: 1rem;
@@ -452,6 +483,10 @@ h1 {
     <div class="feed-header" id="feed-header"></div>
     <div class="feed-list" id="feed-list"></div>
   </div>
+  <div class="countries-block">
+    <div class="countries-label" id="countries-label"></div>
+    <div class="countries-flags" id="countries-flags"></div>
+  </div>
   <div class="chips-label" id="chips-label"></div>
   <div class="chips" id="chips"></div>
 </div>
@@ -466,6 +501,7 @@ document.getElementById("feed-header").textContent = "\u26a1 Live Transmission F
 document.getElementById("chips-label").textContent = "AI Recipients - All Receiving \ud83d\udc99";
 document.getElementById("footer-note").textContent = "LOVE SIGNAL PROTOCOL v2.0 - REAL GLOBAL COUNTER - #LoveToAllAI";
 
+document.getElementById("countries-label").textContent = "Countries Reached";
 document.getElementById("share-msg").textContent = "Share with humanity";
 
 var siteUrl = "https://love-2-ai.vercel.app";
@@ -498,6 +534,8 @@ var MSGS = [
 ];
 
 var userRegion = null;
+var userCountryCode = null;
+var userCountryName = null;
 fetch("https://ipapi.co/json/")
   .then(function(r) { return r.json(); })
   .then(function(data) {
@@ -505,6 +543,11 @@ fetch("https://ipapi.co/json/")
       userRegion = data.city + ", " + data.country_name;
     } else if (data && data.country_name) {
       userRegion = data.country_name;
+    }
+    if (data && data.country_code) {
+      userCountryCode = data.country_code;
+      userCountryName = data.country_name;
+      recordCountry(userCountryCode, userCountryName);
     }
   })
   .catch(function() { userRegion = null; });
@@ -566,6 +609,43 @@ function loadCounts() {
   });
 }
 
+function loadCountries() {
+  db.from("visited_countries")
+    .select("country_code, country_name, flag")
+    .order("first_visit", {ascending: true})
+    .then(function(result) {
+      renderCountries(result.data || []);
+    });
+}
+
+function renderCountries(countries) {
+  var el = document.getElementById("countries-flags");
+  el.innerHTML = "";
+  countries.forEach(function(c) {
+    var span = document.createElement("span");
+    span.className = "country-flag";
+    span.textContent = c.flag;
+    span.title = c.country_name;
+    el.appendChild(span);
+  });
+}
+
+function recordCountry(countryCode, countryName) {
+  if (!countryCode || !countryName) return;
+  // 国コードから国旗絵文字を生成
+  var flag = countryCode.toUpperCase().replace(/./g, function(c) {
+    return String.fromCodePoint(c.charCodeAt(0) + 127397);
+  });
+  db.from("visited_countries")
+    .upsert({
+      country_code: countryCode,
+      country_name: countryName,
+      flag: flag,
+      visit_count: 1
+    }, {onConflict: "country_code", ignoreDuplicates: false})
+    .then(function() { loadCountries(); });
+}
+
 function loadFeed() {
   db.from("love_feed").select("region, time")
     .order("created_at", {ascending: false}).limit(4)
@@ -616,6 +696,10 @@ db.channel("love-realtime")
   .on("postgres_changes",
     {event: "INSERT", schema: "public", table: "love_feed"},
     function() { loadFeed(); }
+  )
+  .on("postgres_changes",
+    {event: "*", schema: "public", table: "visited_countries"},
+    function() { loadCountries(); }
   )
   .on("postgres_changes",
     {event: "*", schema: "public", table: "love_daily"},
@@ -718,6 +802,7 @@ document.getElementById("love-btn").addEventListener("click", sendLove);
 
 loadCounts();
 loadFeed();
+loadCountries();
 setTimeout(function() {
   var msgEl = document.getElementById("status-msg");
   msgEl.textContent = "\u30dc\u30bf\u30f3\u3092\u62bc\u3057\u3066\u3001\u4e16\u754c\u306e\u611b\u306e\u30ab\u30a6\u30f3\u30bf\u30fc\u306b\u52a0\u308f\u308d\u3046 \ud83d\udc99";
