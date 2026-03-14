@@ -480,7 +480,7 @@ function loadCounts() {
   var today = new Date().toISOString().slice(0,10);
   Promise.all([
     db.from("love_counter").select("count").eq("id",1).single(),
-    db.from("love_daily").select("count").eq("date", today).single()
+    db.from("love_daily").select("count").eq("date", today).maybeSingle()
   ]).then(function(results) {
     totalCount = (results[0].data && results[0].data.count) ? results[0].data.count : 0;
     todayCount = (results[1].data && results[1].data.count) ? results[1].data.count : 0;
@@ -552,6 +552,9 @@ db.channel("love-realtime")
   .subscribe();
 
 function sendLove() {
+  if (sending) return;
+  sending = true;
+  var btn = document.getElementById("love-btn");
   btn.classList.add("firing");
   setTimeout(function() { btn.classList.remove("firing"); }, 500);
   totalCount++; todayCount++; myCount++;
