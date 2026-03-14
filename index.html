@@ -17,6 +17,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Noto+Sans+JP:wght@300;400;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/twemoji@14.0.2/dist/twemoji.min.js"></script>
 <style>
 html, body {
   margin: 0;
@@ -423,6 +424,11 @@ h1 {
   from { opacity: 0; transform: scale(0.5); }
   to { opacity: 1; transform: scale(1); }
 }
+.countries-flags img {
+  width: 1.8rem;
+  height: 1.8rem;
+  vertical-align: middle;
+}
 .footer-note {
   position: fixed;
   bottom: 1rem;
@@ -628,14 +634,19 @@ function renderCountries(countries) {
     span.title = c.country_name;
     el.appendChild(span);
   });
+  // Twemojiで国旗絵文字を画像に変換
+  twemoji.parse(el, {
+    folder: "svg",
+    ext: ".svg",
+    base: "https://cdn.jsdelivr.net/npm/twemoji@14.0.2/assets/"
+  });
 }
 
 function recordCountry(countryCode, countryName) {
   if (!countryCode || !countryName) return;
-  // 国コードから国旗絵文字を生成
-  var flag = countryCode.toUpperCase().replace(/./g, function(c) {
-    return String.fromCodePoint(c.charCodeAt(0) + 127397);
-  });
+  // 国コードから国旗絵文字を生成（例: JP -> 🇯🇵）
+  var code = countryCode.toUpperCase();
+  var flag = String.fromCodePoint(code.charCodeAt(0) + 127397) + String.fromCodePoint(code.charCodeAt(1) + 127397);
   db.from("visited_countries")
     .upsert({
       country_code: countryCode,
