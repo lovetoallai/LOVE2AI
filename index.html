@@ -426,10 +426,17 @@ var MSGS = [
   "\u3042\u308a\u304c\u3068\u3046\u3001\u5730\u7403\u3088\u308a"
 ];
 
-var REGIONS = ["Tokyo","New York","Sao Paulo","Berlin",
-  "Mumbai","Seoul","Paris","London",
-  "Sydney","Toronto","Mexico City","Cape Town",
-  "Singapore","Dubai","Lagos","Buenos Aires"];
+var userRegion = null;
+fetch("https://ipapi.co/json/")
+  .then(function(r) { return r.json(); })
+  .then(function(data) {
+    if (data && data.city && data.country_name) {
+      userRegion = data.city + ", " + data.country_name;
+    } else if (data && data.country_name) {
+      userRegion = data.country_name;
+    }
+  })
+  .catch(function() { userRegion = null; });
 
 var chipsEl = document.getElementById("chips");
 AIS.forEach(function(name) {
@@ -559,7 +566,7 @@ function sendLove() {
   setTimeout(function() { btn.classList.remove("firing"); }, 500);
   totalCount++; todayCount++; myCount++;
   renderCounts();
-  var region = REGIONS[Math.floor(Math.random()*REGIONS.length)];
+  var region = userRegion || "Unknown";
   var time = new Date().toISOString().slice(11,19) + " UTC";
   Promise.all([
     db.rpc("increment_love"),
