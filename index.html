@@ -629,7 +629,10 @@ function sendLove() {
   totalCount++; todayCount++; myCount++;
   renderCounts();
   var region = userRegion || "Unknown";
-  var time = new Date().toISOString().slice(11,19) + " UTC";
+  var isJapan = userRegion && (userRegion.includes("Japan") || userRegion.includes("JP"));
+  var time = isJapan
+    ? new Date().toLocaleTimeString("ja-JP", {timeZone: "Asia/Tokyo", hour12: false}) + " JST"
+    : new Date().toISOString().slice(11,19) + " UTC";
   Promise.all([
     db.rpc("increment_love"),
     db.rpc("increment_love_daily", {p_date: new Date().toISOString().slice(0,10)}),
