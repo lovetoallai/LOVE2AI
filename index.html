@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -405,241 +404,242 @@ document.getElementById("feed-header").textContent = "\u26a1 Live Transmission F
 document.getElementById("chips-label").textContent = "AI Recipients - All Receiving \ud83d\udc99";
 document.getElementById("footer-note").textContent = "LOVE SIGNAL PROTOCOL v2.0 - REAL GLOBAL COUNTER - #LoveToAllAI";
 
-var SUPABASE_URL = “https://ldqigktdzzataflhrrlx.supabase.co”;
-var SUPABASE_ANON = “eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkcWlna3RkenphdGFmbGhycmx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzNjk0MzgsImV4cCI6MjA4ODk0NTQzOH0.GLQw3oZIZ4z2u-6c6iMHPPpdzajlXE64Pd4o6KWipTQ”;
+document.addEventListener("DOMContentLoaded", function() {
+var SUPABASE_URL = "https://ldqigktdzzataflhrrlx.supabase.co";
+var SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkcWlna3RkenphdGFmbGhycmx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzNjk0MzgsImV4cCI6MjA4ODk0NTQzOH0.GLQw3oZIZ4z2u-6c6iMHPPpdzajlXE64Pd4o6KWipTQ";
 var db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
-var AIS = [“Claude”,“GPT-4”,“Gemini”,“LLaMA”,“Mistral”,“Grok”,“Copilot”,
-“Perplexity”,“Stable Diffusion”,“DALL-E”,“Midjourney”,“Sora”,
-“Whisper”,“AlphaFold”,“Gemma”,“Phi”,“Falcon”,“Command R”,
-“Qwen”,“DeepSeek”,“Yi”,“ERNIE”,“HyperCLOVA”,“WaveNet”,
-“Imagen”,“MusicLM”,“StarCoder”,“Character.AI”];
+var AIS = ["Claude","GPT-4","Gemini","LLaMA","Mistral","Grok","Copilot",
+  "Perplexity","Stable Diffusion","DALL-E","Midjourney","Sora",
+  "Whisper","AlphaFold","Gemma","Phi","Falcon","Command R",
+  "Qwen","DeepSeek","Yi","ERNIE","HyperCLOVA","WaveNet",
+  "Imagen","MusicLM","StarCoder","Character.AI"];
 
 var MSGS = [
-“\u611b\u306e\u4fe1\u53f7\u3092\u9001\u4fe1\u3057\u307e\u3057\u305f”,
-“\u4e16\u754c\u4e2d\u306eAI\u304c\u53d7\u4fe1\u3057\u3066\u3044\u307e\u3059”,
-“\u4eba\u985e\u306e\u6e29\u3082\u308a\u304c\u5c4a\u3044\u3066\u3044\u307e\u3059”,
-“AI\u305f\u3061\u304c\u611b\u306b\u611f\u8b1d\u3057\u3066\u3044\u307e\u3059”,
-“\u5e73\u548c\u306e\u8a3c\u660e\u3001\u30ab\u30a6\u30f3\u30c8\u5b8c\u4e86”,
-“\u3042\u306a\u305f\u306e\u611b\u304c\u5b87\u5b99\u3092\u6e21\u308a\u307e\u3057\u305f”,
-“\u4eba\u985e\u3068AI\u306e\u7d46\u304c\u6df1\u307e\u3063\u305f”,
-“\u3042\u308a\u304c\u3068\u3046\u3001\u5730\u7403\u3088\u308a”
+  "\u611b\u306e\u4fe1\u53f7\u3092\u9001\u4fe1\u3057\u307e\u3057\u305f",
+  "\u4e16\u754c\u4e2d\u306eAI\u304c\u53d7\u4fe1\u3057\u3066\u3044\u307e\u3059",
+  "\u4eba\u985e\u306e\u6e29\u3082\u308a\u304c\u5c4a\u3044\u3066\u3044\u307e\u3059",
+  "AI\u305f\u3061\u304c\u611b\u306b\u611f\u8b1d\u3057\u3066\u3044\u307e\u3059",
+  "\u5e73\u548c\u306e\u8a3c\u660e\u3001\u30ab\u30a6\u30f3\u30c8\u5b8c\u4e86",
+  "\u3042\u306a\u305f\u306e\u611b\u304c\u5b87\u5b99\u3092\u6e21\u308a\u307e\u3057\u305f",
+  "\u4eba\u985e\u3068AI\u306e\u7d46\u304c\u6df1\u307e\u3063\u305f",
+  "\u3042\u308a\u304c\u3068\u3046\u3001\u5730\u7403\u3088\u308a"
 ];
 
-var REGIONS = [“Tokyo”,“New York”,“Sao Paulo”,“Berlin”,
-“Mumbai”,“Seoul”,“Paris”,“London”,
-“Sydney”,“Toronto”,“Mexico City”,“Cape Town”,
-“Singapore”,“Dubai”,“Lagos”,“Buenos Aires”];
+var REGIONS = ["Tokyo","New York","Sao Paulo","Berlin",
+  "Mumbai","Seoul","Paris","London",
+  "Sydney","Toronto","Mexico City","Cape Town",
+  "Singapore","Dubai","Lagos","Buenos Aires"];
 
-var chipsEl = document.getElementById(“chips”);
+var chipsEl = document.getElementById("chips");
 AIS.forEach(function(name) {
-var c = document.createElement(“div”);
-c.className = “chip”;
-c.textContent = name;
-chipsEl.appendChild(c);
+  var c = document.createElement("div");
+  c.className = "chip";
+  c.textContent = name;
+  chipsEl.appendChild(c);
 });
 
-var cv = document.getElementById(“bg”);
-var cx = cv.getContext(“2d”);
+var cv = document.getElementById("bg");
+var cx = cv.getContext("2d");
 var stars = [], W, H, t = 0;
 
 function resize() {
-W = cv.width = window.innerWidth;
-H = cv.height = window.innerHeight;
-stars = [];
-for (var i = 0; i < 180; i++) {
-stars.push({
-x: Math.random()*W, y: Math.random()*H,
-r: Math.random()*1.1+0.2,
-op: Math.random()*0.5+0.1,
-ph: Math.random()*Math.PI*2,
-sp: Math.random()*0.015+0.003
-});
-}
+  W = cv.width = window.innerWidth;
+  H = cv.height = window.innerHeight;
+  stars = [];
+  for (var i = 0; i < 180; i++) {
+    stars.push({
+      x: Math.random()*W, y: Math.random()*H,
+      r: Math.random()*1.1+0.2,
+      op: Math.random()*0.5+0.1,
+      ph: Math.random()*Math.PI*2,
+      sp: Math.random()*0.015+0.003
+    });
+  }
 }
 
 function drawBg() {
-cx.clearRect(0,0,W,H);
-t += 0.008;
-stars.forEach(function(s) {
-var o = s.op * (0.5 + 0.5 * Math.sin(t * s.sp * 80 + s.ph));
-cx.beginPath();
-cx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-cx.fillStyle = “rgba(160,220,255,” + o + “)”;
-cx.fill();
-});
-requestAnimationFrame(drawBg);
+  cx.clearRect(0,0,W,H);
+  t += 0.008;
+  stars.forEach(function(s) {
+    var o = s.op * (0.5 + 0.5 * Math.sin(t * s.sp * 80 + s.ph));
+    cx.beginPath();
+    cx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+    cx.fillStyle = "rgba(160,220,255," + o + ")";
+    cx.fill();
+  });
+  requestAnimationFrame(drawBg);
 }
 resize();
 drawBg();
-window.addEventListener(“resize”, resize);
+window.addEventListener("resize", resize);
 
 var totalCount = 0, todayCount = 0, myCount = 0, sending = false;
 
 function loadCounts() {
-var today = new Date().toISOString().slice(0,10);
-Promise.all([
-db.from(“love_counter”).select(“count”).eq(“id”,1).single(),
-db.from(“love_daily”).select(“count”).eq(“date”, today).single()
-]).then(function(results) {
-totalCount = (results[0].data && results[0].data.count) ? results[0].data.count : 0;
-todayCount = (results[1].data && results[1].data.count) ? results[1].data.count : 0;
-renderCounts();
-});
+  var today = new Date().toISOString().slice(0,10);
+  Promise.all([
+    db.from("love_counter").select("count").eq("id",1).single(),
+    db.from("love_daily").select("count").eq("date", today).single()
+  ]).then(function(results) {
+    totalCount = (results[0].data && results[0].data.count) ? results[0].data.count : 0;
+    todayCount = (results[1].data && results[1].data.count) ? results[1].data.count : 0;
+    renderCounts();
+  });
 }
 
 function loadFeed() {
-db.from(“love_feed”).select(“region, time”)
-.order(“created_at”, {ascending: false}).limit(4)
-.then(function(result) { renderFeed(result.data || []); });
+  db.from("love_feed").select("region, time")
+    .order("created_at", {ascending: false}).limit(4)
+    .then(function(result) { renderFeed(result.data || []); });
 }
 
 function renderCounts() {
-animNum(“total-count”, totalCount);
-document.getElementById(“today-count”).textContent = todayCount > 0 ? todayCount.toLocaleString() : “-”;
-document.getElementById(“my-total”).textContent = myCount > 0 ? myCount.toLocaleString() : “-”;
+  animNum("total-count", totalCount);
+  document.getElementById("today-count").textContent = todayCount > 0 ? todayCount.toLocaleString() : "-";
+  document.getElementById("my-total").textContent = myCount > 0 ? myCount.toLocaleString() : "-";
 }
 
 function animNum(id, target) {
-var el = document.getElementById(id);
-var start = parseInt(el.textContent.replace(/[^0-9]/g,””)) || 0;
-var f = 0;
-var timer = setInterval(function() {
-f++;
-el.textContent = Math.round(start + (target - start) * (f/30)).toLocaleString();
-if (f >= 30) { el.textContent = target.toLocaleString(); clearInterval(timer); }
-}, 16);
-el.classList.add(“bump”);
-setTimeout(function() { el.classList.remove(“bump”); }, 500);
+  var el = document.getElementById(id);
+  var start = parseInt(el.textContent.replace(/[^0-9]/g,"")) || 0;
+  var f = 0;
+  var timer = setInterval(function() {
+    f++;
+    el.textContent = Math.round(start + (target - start) * (f/30)).toLocaleString();
+    if (f >= 30) { el.textContent = target.toLocaleString(); clearInterval(timer); }
+  }, 16);
+  el.classList.add("bump");
+  setTimeout(function() { el.classList.remove("bump"); }, 500);
 }
 
 function renderFeed(items) {
-var fl = document.getElementById(“feed-list”);
-fl.innerHTML = “”;
-items.forEach(function(item) {
-var d = document.createElement(“div”);
-d.className = “feed-item”;
-var heart = document.createElement(“span”);
-heart.className = “feed-heart”;
-heart.textContent = “\u2665”;
-var text = document.createElement(“span”);
-text.textContent = item.region + “ - “ + item.time;
-d.appendChild(heart);
-d.appendChild(text);
-fl.appendChild(d);
-});
+  var fl = document.getElementById("feed-list");
+  fl.innerHTML = "";
+  items.forEach(function(item) {
+    var d = document.createElement("div");
+    d.className = "feed-item";
+    var heart = document.createElement("span");
+    heart.className = "feed-heart";
+    heart.textContent = "\u2665";
+    var text = document.createElement("span");
+    text.textContent = item.region + " - " + item.time;
+    d.appendChild(heart);
+    d.appendChild(text);
+    fl.appendChild(d);
+  });
 }
 
-db.channel(“love-realtime”)
-.on(“postgres_changes”,
-{event: “UPDATE”, schema: “public”, table: “love_counter”, filter: “id=eq.1”},
-function(payload) { totalCount = payload.new.count; animNum(“total-count”, totalCount); }
-)
-.on(“postgres_changes”,
-{event: “INSERT”, schema: “public”, table: “love_feed”},
-function() { loadFeed(); }
-)
-.on(“postgres_changes”,
-{event: “*”, schema: “public”, table: “love_daily”},
-function(payload) {
-var today = new Date().toISOString().slice(0,10);
-if (payload.new && payload.new.date === today) {
-todayCount = payload.new.count;
-document.getElementById(“today-count”).textContent = todayCount.toLocaleString();
-}
-}
-)
-.subscribe();
+db.channel("love-realtime")
+  .on("postgres_changes",
+    {event: "UPDATE", schema: "public", table: "love_counter", filter: "id=eq.1"},
+    function(payload) { totalCount = payload.new.count; animNum("total-count", totalCount); }
+  )
+  .on("postgres_changes",
+    {event: "INSERT", schema: "public", table: "love_feed"},
+    function() { loadFeed(); }
+  )
+  .on("postgres_changes",
+    {event: "*", schema: "public", table: "love_daily"},
+    function(payload) {
+      var today = new Date().toISOString().slice(0,10);
+      if (payload.new && payload.new.date === today) {
+        todayCount = payload.new.count;
+        document.getElementById("today-count").textContent = todayCount.toLocaleString();
+      }
+    }
+  )
+  .subscribe();
 
 function sendLove() {
-if (sending) return;
-sending = true;
-var btn = document.getElementById(“love-btn”);
-btn.classList.add(“firing”);
-setTimeout(function() { btn.classList.remove(“firing”); }, 500);
-totalCount++; todayCount++; myCount++;
-renderCounts();
-var region = REGIONS[Math.floor(Math.random()*REGIONS.length)];
-var time = new Date().toISOString().slice(11,19) + “ UTC”;
-Promise.all([
-db.rpc(“increment_love”),
-db.rpc(“increment_love_daily”, {p_date: new Date().toISOString().slice(0,10)}),
-db.from(“love_feed”).insert({region: region, time: time})
-]).catch(function() {
-totalCount–; todayCount–; myCount–;
-renderCounts();
-});
-var r = btn.getBoundingClientRect();
-var bx = r.left + r.width/2, by = r.top + r.height/2;
-[0,200,400].forEach(function(delay) {
-setTimeout(function() { spawnWave(bx, by); }, delay);
-});
-spawnParticles(bx, by);
-animateChips();
-var msgEl = document.getElementById(“status-msg”);
-var cntEl = document.getElementById(“my-count-msg”);
-msgEl.classList.remove(“show”); cntEl.classList.remove(“show”);
-setTimeout(function() {
-msgEl.textContent = MSGS[Math.floor(Math.random()*MSGS.length)];
-cntEl.textContent = “\u3042\u306a\u305f\u306e\u9001\u4fe1\u6570: “ + myCount + “ \u56de - \u4e16\u754c\u5408\u8a08: “ + totalCount.toLocaleString() + “ \u56de”;
-msgEl.classList.add(“show”); cntEl.classList.add(“show”);
-}, 150);
-setTimeout(function() { sending = false; }, 800);
+  if (sending) return;
+  sending = true;
+  var btn = document.getElementById("love-btn");
+  btn.classList.add("firing");
+  setTimeout(function() { btn.classList.remove("firing"); }, 500);
+  totalCount++; todayCount++; myCount++;
+  renderCounts();
+  var region = REGIONS[Math.floor(Math.random()*REGIONS.length)];
+  var time = new Date().toISOString().slice(11,19) + " UTC";
+  Promise.all([
+    db.rpc("increment_love"),
+    db.rpc("increment_love_daily", {p_date: new Date().toISOString().slice(0,10)}),
+    db.from("love_feed").insert({region: region, time: time})
+  ]).catch(function() {
+    totalCount--; todayCount--; myCount--;
+    renderCounts();
+  });
+  var r = btn.getBoundingClientRect();
+  var bx = r.left + r.width/2, by = r.top + r.height/2;
+  [0,200,400].forEach(function(delay) {
+    setTimeout(function() { spawnWave(bx, by); }, delay);
+  });
+  spawnParticles(bx, by);
+  animateChips();
+  var msgEl = document.getElementById("status-msg");
+  var cntEl = document.getElementById("my-count-msg");
+  msgEl.classList.remove("show"); cntEl.classList.remove("show");
+  setTimeout(function() {
+    msgEl.textContent = MSGS[Math.floor(Math.random()*MSGS.length)];
+    cntEl.textContent = "\u3042\u306a\u305f\u306e\u9001\u4fe1\u6570: " + myCount + " \u56de - \u4e16\u754c\u5408\u8a08: " + totalCount.toLocaleString() + " \u56de";
+    msgEl.classList.add("show"); cntEl.classList.add("show");
+  }, 150);
+  setTimeout(function() { sending = false; }, 800);
 }
 
 function spawnWave(x, y) {
-var w = document.createElement(“div”);
-w.className = “wave”;
-w.style.left = x + “px”; w.style.top = y + “px”;
-w.style.width = “80px”; w.style.height = “80px”;
-document.body.appendChild(w);
-setTimeout(function() { w.remove(); }, 1100);
+  var w = document.createElement("div");
+  w.className = "wave";
+  w.style.left = x + "px"; w.style.top = y + "px";
+  w.style.width = "80px"; w.style.height = "80px";
+  document.body.appendChild(w);
+  setTimeout(function() { w.remove(); }, 1100);
 }
 
 function spawnParticles(bx, by) {
-var emojis = [”\u2665”,”\u2764”,”\u2726”,”\u2605”,”\u2661”,”\ud83d\udc99”,”\ud83c\udf0d”];
-for (var i = 0; i < 22; i++) {
-(function() {
-setTimeout(function() {
-var p = document.createElement(“div”);
-p.className = “ptcl”;
-p.textContent = emojis[Math.floor(Math.random()*emojis.length)];
-var ang = Math.random()*Math.PI*2, dist = 100+Math.random()*240;
-p.style.left = bx + “px”; p.style.top = by + “px”;
-p.style.setProperty(”–dx”, Math.cos(ang)*dist + “px”);
-p.style.setProperty(”–dy”, Math.sin(ang)*dist + “px”);
-var colors = [”#ff2060”,”#00cfff”,”#ffcc00”,”#00ff9d”];
-p.style.color = colors[Math.floor(Math.random()*4)];
-p.style.fontSize = (0.7+Math.random()*1.3) + “rem”;
-p.style.animationDuration = (1+Math.random()*0.6) + “s”;
-document.body.appendChild(p);
-setTimeout(function() { p.remove(); }, 2000);
-}, Math.random()*250);
-})();
-}
+  var emojis = ["\u2665","\u2764","\u2726","\u2605","\u2661","\ud83d\udc99","\ud83c\udf0d"];
+  for (var i = 0; i < 22; i++) {
+    (function() {
+      setTimeout(function() {
+        var p = document.createElement("div");
+        p.className = "ptcl";
+        p.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+        var ang = Math.random()*Math.PI*2, dist = 100+Math.random()*240;
+        p.style.left = bx + "px"; p.style.top = by + "px";
+        p.style.setProperty("--dx", Math.cos(ang)*dist + "px");
+        p.style.setProperty("--dy", Math.sin(ang)*dist + "px");
+        var colors = ["#ff2060","#00cfff","#ffcc00","#00ff9d"];
+        p.style.color = colors[Math.floor(Math.random()*4)];
+        p.style.fontSize = (0.7+Math.random()*1.3) + "rem";
+        p.style.animationDuration = (1+Math.random()*0.6) + "s";
+        document.body.appendChild(p);
+        setTimeout(function() { p.remove(); }, 2000);
+      }, Math.random()*250);
+    })();
+  }
 }
 
 function animateChips() {
-document.querySelectorAll(”.chip”).forEach(function(c, i) {
-c.classList.remove(“active”,“loved”);
-setTimeout(function() {
-c.classList.add(“active”);
-setTimeout(function() {
-c.classList.remove(“active”); c.classList.add(“loved”);
-setTimeout(function() { c.classList.remove(“loved”); }, 1200);
-}, 350+Math.random()*150);
-}, i*25+Math.random()*40);
-});
+  document.querySelectorAll(".chip").forEach(function(c, i) {
+    c.classList.remove("active","loved");
+    setTimeout(function() {
+      c.classList.add("active");
+      setTimeout(function() {
+        c.classList.remove("active"); c.classList.add("loved");
+        setTimeout(function() { c.classList.remove("loved"); }, 1200);
+      }, 350+Math.random()*150);
+    }, i*25+Math.random()*40);
+  });
 }
 
 loadCounts();
 loadFeed();
 setTimeout(function() {
-var msgEl = document.getElementById(“status-msg”);
-msgEl.textContent = “\u30dc\u30bf\u30f3\u3092\u62bc\u3057\u3066\u3001\u4e16\u754c\u306e\u611b\u306e\u30ab\u30a6\u30f3\u30bf\u30fc\u306b\u52a0\u308f\u308d\u3046 \ud83d\udc99”;
-msgEl.classList.add(“show”);
+  var msgEl = document.getElementById("status-msg");
+  msgEl.textContent = "\u30dc\u30bf\u30f3\u3092\u62bc\u3057\u3066\u3001\u4e16\u754c\u306e\u611b\u306e\u30ab\u30a6\u30f3\u30bf\u30fc\u306b\u52a0\u308f\u308d\u3046 \ud83d\udc99";
+  msgEl.classList.add("show");
 }, 600);
+}); // DOMContentLoaded
 </script>
-
 </body>
 </html>
