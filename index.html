@@ -377,7 +377,7 @@ h1 {
     <div class="pulse-ring"></div>
     <div class="pulse-ring"></div>
     <div class="pulse-ring"></div>
-    <button id="love-btn" onclick="sendLove()">
+    <button id="love-btn">
       <span class="btn-heart" id="btn-heart"></span>
       <span class="btn-label">SEND LOVE</span>
     </button>
@@ -552,9 +552,6 @@ db.channel("love-realtime")
   .subscribe();
 
 function sendLove() {
-  if (sending) return;
-  sending = true;
-  var btn = document.getElementById("love-btn");
   btn.classList.add("firing");
   setTimeout(function() { btn.classList.remove("firing"); }, 500);
   totalCount++; todayCount++; myCount++;
@@ -631,6 +628,8 @@ function animateChips() {
     }, i*25+Math.random()*40);
   });
 }
+
+document.getElementById("love-btn").addEventListener("click", sendLove);
 
 loadCounts();
 loadFeed();
