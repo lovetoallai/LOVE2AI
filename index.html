@@ -519,7 +519,7 @@ document.getElementById("share-line").href = "https://social-plugins.line.me/lin
 
 document.addEventListener("DOMContentLoaded", function() {
 var SUPABASE_URL = "https://ldqigktdzzataflhrrlx.supabase.co";
-var SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkcWlna3RkenphdGFmbGhycmx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzNjk0MzgsImV4cCI6MjA4ODk0NTQzOH0.GLQw3oZIZ4z2u-6c6iMHPPpdzajlXE64Pd4o6KWipTQ";
+var SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkcWlna3RkenphdGFmbGhycmx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzNjk0MzgsImV4cCI6MjA4ODk0NTQzOH0.GLQw3oZIZ4z2u-6c6iMHPPpdzajlXE4o6KWipTQ";
 var db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
 var AIS = ["Claude","GPT-4","Gemini","LLaMA","Mistral","Grok","Copilot",
@@ -553,6 +553,7 @@ fetch("https://ipapi.co/json/")
     if (data && data.country_code) {
       userCountryCode = data.country_code;
       userCountryName = data.country_name;
+      window.isUserJapan = (data.country_code === 'JP'); // これを追加
       recordCountry(userCountryCode, userCountryName);
     }
   })
@@ -709,7 +710,7 @@ db.channel("love-realtime")
     function() { loadFeed(); }
   )
   .on("postgres_changes",
-    {event: "*", schema: "public", table: "visited_countries"},
+   \ {event: "*", schema: "public", table: "visited_countries"},
     function() { loadCountries(); }
   )
   .on("postgres_changes",
@@ -732,10 +733,10 @@ function sendLove() {
   setTimeout(function() { btn.classList.remove("firing"); }, 500);
   totalCount++; todayCount++; myCount++;
   renderCounts();
-  var region = userRegion || "Unknown";
-  var isJapan = userRegion && (userRegion.includes("Japan") || userRegion.includes("JP"));
+  var region = userRegion || "Global Network";
+  var isJapan = window.isUserJapan || (userRegion && userRegion.includes("Japan"));
   var time = isJapan
-    ? new Date().toLocaleTimeString("ja-JP", {timeZone: "Asia/Tokyo", hour12: false}) + " JST"
+    ? new Date().toLocaleTimeString("ja-JP", { hour12: false }) + " JST"
     : new Date().toISOString().slice(11,19) + " UTC";
   Promise.all([
     db.rpc("increment_love"),
