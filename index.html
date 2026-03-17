@@ -850,6 +850,27 @@ const map = new jsVectorMap({
   }
 });
 
+// ③ 🌍 データ取得関数（ここに書く）
+  async function loadCountries() {
+    const { data, error } = await supabase
+      .from('visited_countries')
+      .select('*');
+
+    if (error) {
+      console.error(error);
+      return;
+    }
+
+    const countryCodes = data.map(c => c.country_code);
+
+    map.setSelectedRegions(countryCodes);
+  }
+
+  // ④ 実行（ここ重要）
+  loadCountries();
+
+});
+
 setTimeout(function() {
   var msgEl = document.getElementById("status-msg");
   msgEl.textContent = "\u30dc\u30bf\u30f3\u3092\u62bc\u3057\u3066\u3001\u4e16\u754c\u306e\u611b\u306e\u30ab\u30a6\u30f3\u30bf\u30fc\u306b\u52a0\u308f\u308d\u3046 \ud83d\udc99";
