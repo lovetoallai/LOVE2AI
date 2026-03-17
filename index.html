@@ -507,6 +507,13 @@ Send love to AI from your country. Every love signal is recorded globally.
   <div class="countries-block">
     <div class="countries-label" id="countries-label"></div>
     <div class="countries-flags" id="countries-flags"></div>
+    <!-- 🌍 ここに追加 -->
+  <div id="world-map" style="
+    width:100%;
+    height:200px;
+    max-width:420px;
+    margin:20px auto;
+  ">
   </div>
   <div class="chips-label" id="chips-label"></div>
   <div class="chips" id="chips"></div>
@@ -830,6 +837,19 @@ document.getElementById("love-btn").addEventListener("click", sendLove);
 loadCounts();
 loadFeed();
 loadCountries();
+
+// 🌍 世界地図
+const map = new jsVectorMap({
+  selector: "#world-map",
+  map: "world",
+  zoomButtons: false,
+  backgroundColor: "transparent",
+  regionStyle: {
+    initial: { fill: "#1a2a44" },
+    selected: { fill: "#00d1ff" }
+  }
+});
+
 setTimeout(function() {
   var msgEl = document.getElementById("status-msg");
   msgEl.textContent = "\u30dc\u30bf\u30f3\u3092\u62bc\u3057\u3066\u3001\u4e16\u754c\u306e\u611b\u306e\u30ab\u30a6\u30f3\u30bf\u30fc\u306b\u52a0\u308f\u308d\u3046 \ud83d\udc99";
@@ -837,5 +857,11 @@ setTimeout(function() {
 }, 600);
 }); // DOMContentLoaded
 </script>
+
+<!-- 🌍 ここに追加 -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsvectormap/dist/css/jsvectormap.min.css">
+<script src="https://cdn.jsdelivr.net/npm/jsvectormap"></script>
+<script src="https://cdn.jsdelivr.net/npm/jsvectormap/dist/maps/world.js"></script>
+
 </body>
 </html>
