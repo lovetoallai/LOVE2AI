@@ -853,8 +853,8 @@ const map = new jsVectorMap({
 // ③ 🌍 データ取得関数（ここに書く）
   async function loadCountries() {
     const { data, error } = await supabase
-      .from('visited_countries')
-      .select('*');
+      .from("visited_countries")
+      .select("*");
 
     if (error) {
       console.error(error);
