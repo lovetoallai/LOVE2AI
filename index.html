@@ -539,6 +539,8 @@ document.getElementById("share-reddit").href = "https://reddit.com/submit?url=" 
 document.getElementById("share-facebook").href = "https://www.facebook.com/sharer/sharer.php?u=" + encodeURIComponent(siteUrl);
 document.getElementById("share-line").href = "https://social-plugins.line.me/lineit/share?url=" + encodeURIComponent(siteUrl);
 
+let map;
+
 document.addEventListener("DOMContentLoaded", function() {
 var SUPABASE_URL = "https://ldqigktdzzataflhrrlx.supabase.co";
 var SUPABASE_ANON = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxkcWlna3RkenphdGFmbGhycmx4Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMzNjk0MzgsImV4cCI6MjA4ODk0NTQzOH0.GLQw3oZIZ4z2u-6c6iMHPPpdzajlXE64Pd4o6KWipTQ";
@@ -559,8 +561,8 @@ var db = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
   // ③ 🌍 データ取得関数（ここに書く）
   async function loadCountries() {
     const { data, error } = await supabase
-      .from('visited_countries')
-      .select('*');
+      .from("visited_countries")
+      .select("*");
 
     if (error) {
       console.error(error);
