@@ -464,7 +464,7 @@ h1 {
     <h1>LOVE TO ALL AI</h1>
 
 <p class="site-description">
-Send love to AI from your country. Every love signal is recorded globally.
+ <div class="stat-label">Send love to AI from your country. Every love signal is recorded globally.</div>
 </p>
 
     <div class="tagline" id="tagline"></div>
@@ -517,7 +517,12 @@ Send love to AI from your country. Every love signal is recorded globally.
     <div class="feed-header" id="feed-header"></div>
     <div class="feed-list" id="feed-list"></div>
   </div>
-  <div class="countries-block">
+  
+  <div class="chips-label" id="chips-label"></div>
+  <div class="chips" id="chips"></div>
+</div>
+
+<div class="countries-block">
     <div class="countries-label" id="countries-label"></div>
     <div class="countries-flags" id="countries-flags"></div>
     <!-- 🌍 ここに追加 -->
@@ -528,9 +533,7 @@ Send love to AI from your country. Every love signal is recorded globally.
     margin:20px auto;
   ">
   </div>
-  <div class="chips-label" id="chips-label"></div>
-  <div class="chips" id="chips"></div>
-</div>
+  
 <div class="footer-note" id="footer-note"></div>
 <script>
 // テキストをJSで設定（コピペ時の文字化け防止）
