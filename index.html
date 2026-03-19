@@ -580,22 +580,27 @@ var MSGS = [
 var userRegion = null;
 var userCountryCode = null;
 var userCountryName = null;
+
 fetch("https://ipapi.co/json/")
   .then(function(r) { return r.json(); })
   .then(function(data) {
-    if (data && data.city && data.country_name) {
-      userRegion = data.city + ", " + data.country_name;
-    } else if (data && data.country_name) {
-      userRegion = data.country_name;
-    }
-    if (data && data.country_code) {
+    if (data && data.country_name) {
       userCountryCode = data.country_code;
       userCountryName = data.country_name;
-      window.isUserJapan = (data.country_code === "JP"); // これを追加
+      userRegion = (data.city ? data.city + ", " : "") + data.country_name;
+      window.isUserJapan = (data.country_code === "JP");
+      
+      // 【追加】場所が判明したら、即座に表示に反映させる
+      var msgEl = document.getElementById("status-msg");
+      if (msgEl) {
+        msgEl.textContent = userRegion + " から愛を届けよう 💙";
+        msgEl.classList.add("show");
+      }
+      
       recordCountry(userCountryCode, userCountryName);
     }
   })
-  .catch(function() { userRegion = null; });
+
 
 var chipsEl = document.getElementById("chips");
 AIS.forEach(function(name) {
