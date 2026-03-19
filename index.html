@@ -665,13 +665,13 @@ function loadCountries() {
 
 function renderCountries(countries) {
   var el = document.getElementById("countries-flags");
-  if (!el) return; // 要素がない場合は中断
+  if (!el) return;
   el.innerHTML = "";
   
   var countryCodes = []; 
 
   countries.forEach(function(c) {
-    if (!c.flag) return; // 旗データがない場合はスキップ
+    if (!c.flag) return;
     
     var span = document.createElement("span");
     span.className = "country-flag";
@@ -684,11 +684,6 @@ function renderCountries(countries) {
     }
   });
 
-  // 地図のハイライト処理
-  if (window.worldMap && countryCodes.length > 0) {
-    window.worldMap.setSelectedRegions(countryCodes);
-  }
-
   // Twemojiの実行
   if (typeof twemoji !== 'undefined') {
     twemoji.parse(el, {
@@ -697,7 +692,19 @@ function renderCountries(countries) {
       base: "https://cdnjs.cloudflare.com/ajax/libs/twemoji/14.0.2/svg/"
     });
   }
+
+  // 重要：地図が準備できていれば即実行、まだなら少し待ってから実行
+  function highlight() {
+    if (window.worldMap && typeof window.worldMap.setSelectedRegions === 'function') {
+      window.worldMap.setSelectedRegions(countryCodes);
+    } else {
+      // 地図がまだロードされていなければ、0.5秒後に再試行
+      setTimeout(highlight, 500);
+    }
+  }
+  highlight();
 }
+
 
 
 function loadFeed() {
