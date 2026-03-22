@@ -609,6 +609,22 @@ fetch("https://ipapi.co/json/")
     }
   })
 
+function recordCountry(code, name) {
+  if (!code || !name) return;
+  var flag = getFlagEmoji(code);
+  db.from("visited_countries")
+    .upsert({ country_code: code, country_name: name, flag: flag },
+             { onConflict: "country_code", ignoreDuplicates: true })
+    .then(function(result) {
+      if (result.error) console.error("recordCountry error:", result.error);
+    });
+}
+
+function getFlagEmoji(code) {
+  return code.toUpperCase().replace(/./g, function(c) {
+    return String.fromCodePoint(c.charCodeAt(0) + 127397);
+  });
+}
 
 var chipsEl = document.getElementById("chips");
 AIS.forEach(function(name) {
