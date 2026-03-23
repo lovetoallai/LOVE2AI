@@ -439,14 +439,58 @@ h1 {
   height: 1.8rem;
   vertical-align: middle;
 }
+.story-links {
+  position: relative;
+  z-index: 20;
+  text-align: center;
+  margin: 2.5rem auto 1rem;
+  padding: 1.2rem 1.5rem;
+  max-width: 480px;
+  border-top: 1px solid rgba(168,216,240,0.12);
+}
+
+.story-links-label {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.55rem;
+  letter-spacing: 0.25em;
+  color: rgba(168,216,240,0.35);
+  text-transform: uppercase;
+  margin-bottom: 0.8rem;
+}
+
+.story-links-row {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.story-link {
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: rgba(168,216,240,0.55);
+  text-decoration: none;
+  border: 1px solid rgba(168,216,240,0.2);
+  padding: 0.4rem 1rem;
+  border-radius: 2rem;
+  transition: color 0.3s, border-color 0.3s;
+}
+
+.story-link:hover {
+  color: rgba(168,216,240,0.95);
+  border-color: rgba(168,216,240,0.6);
+}
+
 .footer-note {
-  position: fixed;
-  bottom: 1rem;
+  position: relative;
+  z-index: 20;
   font-family: 'Share Tech Mono', monospace;
   font-size: 0.5rem;
   letter-spacing: 0.18em;
   color: rgba(168,216,240,0.15);
   text-align: center;
+  padding-bottom: 1.5rem;
 }
 
 .about-link {
@@ -551,6 +595,14 @@ LIVE GLOBAL COUNT</div>
 
   </div>
 
+
+<div class="story-links">
+  <div class="story-links-label">— The Story Behind This Project —</div>
+  <div class="story-links-row">
+    <a class="story-link" href="love_to_all_ai_story.html">📖 物語を読む（日本語）</a>
+    <a class="story-link" href="love_to_all_ai_story_en.html">📖 Read the Story (English)</a>
+  </div>
+</div>
 
 <div class="footer-note" id="footer-note"></div>
 <script>
